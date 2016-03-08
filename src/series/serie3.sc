@@ -1,14 +1,46 @@
 class Rational(n : Int, d : Int)
 {
-    val numerator = n
-    val denominator = d
+    require(d != 0)
+
+    val g = pgdc(n,d)
+
+    val numerator = n / g
+    val denominator = d / g
+
+    def this(n:Int) = this(n,1)
 
     def add(b: Rational) =
     {
         new Rational(
             numerator*b.denominator+b.numerator*denominator,
             denominator*b.denominator
-        ).rearrange()
+        )
+    }
+
+    def neg() =
+    {
+        new Rational(
+            -numerator,
+            denominator
+        )
+    }
+
+    def less(b : Rational) =
+    {
+        numerator * b.denominator > denominator * b.numerator
+    }
+
+    def greater(b: Rational) =
+    {
+        numerator * b.denominator < denominator * b.numerator
+    }
+
+    def max(b: Rational) =
+    {
+        if(this < b)
+            b
+        else
+            this
     }
 
     def sous(b : Rational) =
@@ -16,7 +48,7 @@ class Rational(n : Int, d : Int)
         new Rational(
             numerator*b.denominator-b.numerator*denominator,
             denominator*b.denominator
-        ).rearrange()
+        )
     }
 
     def times(b : Rational) =
@@ -24,7 +56,7 @@ class Rational(n : Int, d : Int)
         new Rational(
             numerator * b.numerator,
             denominator * b.denominator
-        ).rearrange()
+        )
     }
 
     def div(b : Rational) =
@@ -32,7 +64,7 @@ class Rational(n : Int, d : Int)
         new Rational(
             numerator * b.denominator,
             denominator * b.numerator
-        ).rearrange()
+        )
     }
 
     def equals(b: Rational) =
@@ -45,23 +77,34 @@ class Rational(n : Int, d : Int)
     def *(b:Rational) = times(b)
     def /(b:Rational) = div(b)
     def ==(b:Rational) = equals(b)
+    def <(b:Rational) = less(b)
+    def >(b:Rational) = greater(b)
+    def unary_- = neg()
+    def unary_+ = neg() neg()
 
     private def rearrange(): Rational =
     {
         val pgcdValue = pgdc(numerator,denominator)
-        new Rational(numerator / pgcdValue, denominator / pgcdValue)
+        if(numerator < 0 && denominator < 0)
+            new Rational(-numerator / pgcdValue,-denominator / pgcdValue)
+        else
+            new Rational(numerator / pgcdValue,denominator / pgcdValue)
     }
 
     private def pgdc(a:Int,b:Int):Int =
     {
-        if (b > a)
-            pgdc(b,a)
-        else if (b == 0)
-            a
-        else
-            pgdc(b, a - b)
+        def pgcdAbs(a1:Int,b1:Int) =
+        {
+            if (b1 > a1)
+                pgdc(b1,a1)
+            else if (b1 == 0)
+                a1
+            else
+                pgdc(b1, a1 - b1)
+        }
+        def abs(a : Int) = if(a < 0) -a else a
+        pgcdAbs(abs(a),abs(b))
     }
-
     override def toString = s"$numerator/$denominator"
 }
 
@@ -70,3 +113,7 @@ val b = new Rational(1,3)
 val c = new Rational(2,1)
 val d = new Rational(3,1)
 
+val e = d.neg()
+e * a
+
+d * d
