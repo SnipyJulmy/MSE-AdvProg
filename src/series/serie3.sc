@@ -9,6 +9,7 @@ class Rational(n : Int, d : Int)
 
     def this(n:Int) = this(n,1)
 
+
     def add(b: Rational) =
     {
         new Rational(
@@ -108,6 +109,11 @@ class Rational(n : Int, d : Int)
     override def toString = s"$numerator/$denominator"
 }
 
+object Rational
+{
+    implicit def intToRational(x:Int) : Rational = new Rational(x)
+}
+
 val a = new Rational(1,2)
 val b = new Rational(1,3)
 val c = new Rational(2,1)
@@ -117,3 +123,8 @@ val e = d.neg()
 e * a
 
 d * d
+
+2 * d
+d * 2
+
+
