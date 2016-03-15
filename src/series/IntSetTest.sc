@@ -1,5 +1,3 @@
-import scala.collection.immutable.Stream
-
 abstract class IntSet
 {
     def add(x: Int): IntSet
@@ -68,7 +66,7 @@ class NonEmpty(elem: Int, left: IntSet, right: IntSet) extends IntSet
     override def intersection(other: IntSet): IntSet =
     {
         if (other.contains(elem))
-            Empty.union(left.intersection(other)).union(right.intersection(other)).add(elem)
+            left.intersection(other) union right.intersection(other) add elem
         else
             left.intersection(other) union right.intersection(other)
     }
