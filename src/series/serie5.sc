@@ -1,5 +1,3 @@
-import scala.annotation.tailrec
-
 // Question 1
 
 // a
@@ -23,11 +21,6 @@ def dot(list1: List[Int], list2: List[Int]): List[Int] =
     (list1 zip list2).map(x => x._1 * x._2)
 }
 
-longuest(List("abc", "asdf", "pkafdajdakda"))
-dup(List(1, 2), 3)
-dot(List(1, 2, 3), List(4, 5, 6))
-isPresent(List(1,2,3,4,5),6)
-
 // Question 2
 
 //noinspection FoldTrueAnd
@@ -37,17 +30,28 @@ def areTrue(list: List[Boolean]): Boolean =
 }
 
 //noinspection SimplifiableFoldOrReduce
-def lString(list: List[String]) : Int =
+def lString(list: List[String]): Int =
 {
     list.map(_.length).foldLeft(0)(_ + _)
 }
 
-def longuest(list: List[String]) : (Int,String) =
+def longuest(list: List[String]): (Int, String) =
 {
-    list.map(s => (s.length,s)).foldLeft((-1,"abdullah"))((x,y) => if(x._1 > y._1 ) x else y)
+    list.map(s => (s.length, s)).foldLeft((-1, "abdullah"))((x, y) => if (x._1 > y._1) x else y)
 }
 
-def isPresent[A](list: List[A], elem : A) =
+def isPresent[A](list: List[A], elem: A) =
 {
-    list.map(_ == elem).foldLeft(false)((x,y) => x || y)
+    list.map(_ == elem).foldLeft(false)((x, y) => x || y)
+}
+
+def flattenList(list: List[Any]): List[Any] =
+{
+    list.foldRight(List[Any]())((elem, acc) =>
+        elem match
+        {
+            case x :: xs => x :: flattenList(xs) ::: acc
+            case x => x :: acc
+        }
+    )
 }
