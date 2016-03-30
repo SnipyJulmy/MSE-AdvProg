@@ -57,13 +57,23 @@ L'étude distingue trois familles de langages réactifs: Les langages \textit{\t
 \section{Questions ouvertes et solutions}
 
 La programmation réactive possède encore des zones d'ombres, très peu de langages réactifs
-supportent la multi-directionnalité et la programmation distribuée.
-
-\subsection{Multi-directionnalité}
-
-\subsection{Programmation réactive distribuée}
-
-Multidirectionality, distributed reactive programming 
+supportent la multi-directionnalité et la programmation distribuée. L'étude propose des pistes pour leur mitigation :
+\begin{itemize}
+    \item \textbf{Multi-directonnalité}
+        \begin{itemize}
+            \item Utiliser un système basé sur la programmation par contrainte mais pour des flux
+            \item Expliciter la dépendance bi-directionnelle (certains langages)
+        \end{itemize}
+    \item \textbf{Glitches dans les systèmes distribués}
+        \begin{itemize}
+            \item Utiliser une entité centrale
+            \item Mise en place d'une horloge commune
+        \end{itemize}
+    \item \textbf{Erreurs réseaux}
+        \begin{itemize}
+            \item Utilisation du pattern "publish/subscribe-style" (pas besoin d'être connecté au même moment)
+        \end{itemize}
+\end{itemize}
 
 \section{Conclusion}
 
