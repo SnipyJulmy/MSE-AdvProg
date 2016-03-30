@@ -31,7 +31,7 @@ L'étude utilise six axes d'approche pour la description des langages réactifs 
     La plupart des langages fournissent 2 abstractions basiques : les \textbf{\textit{behaviors}} pour la représentation des valeurs évoluant dans le temps de manière continue et les \textbf{\textit{events}} pour la représentation de flux (potentiellement infinis) d'événements discrets. Ces éléments sont généralement composables via des \textbf{\textit{combinators}} pour en produire de nouveaux. Les différences entre langages se situent principalement sur la manière de représenter les behaviors, avec soit la lazy evaluation soit du sampling.
     
     \item[Modèle d'évaluation]
-    Le modèle d'évaluation définit comment les changements sont propagés dans le graphe de dépendance des valeurs et fonctions. Du point de vue du programmeurs, cette propagation est automatique. Cette propagation peut avoir lieu dans deux sens: 
+    Le modèle d'évaluation définit comment les changements sont propagés dans le graphe de dépendance des valeurs et fonctions. Du point de vue du programmeur, cette propagation est automatique. Cette propagation peut avoir lieu dans deux sens: 
     
     \textbf{\textit{Pull-Based}} (propagation demand-driven), où le calcul nécessitant la valeur évolutive doit la réclamer("pull") à la source (lazy evaluation).
     
