@@ -10,45 +10,49 @@
 
 \begin{document}
 
-\title{A Survey on Reactive Programming}
+\title{"A Survey on Reactive Programming" - Résumé}
 
-\author{Bainomugisha Andoni et al., Vrije Universiteteit Brussel, 2013}
+\author{Auteurs de l'article: Bainomugisha Andoni et al., Vrije Universiteteit Brussel, 2013}
 
 \maketitle
 
 \section{Contexte et définition}
-De nous jours, les applications deviennent de plus en plus interactives et dirigées par des évènement (event-driven applications). Le problème est que le comportement de ces applications est difficile à contrôler et à prédire car les évènements externes ne sont pas sous contrôle.
 
-La "programmation réactive" (reactive programming) est une solution pour les problèmes posés par la programmation évènementielle. Elle fournit les abstractions essentielles à l'expression de programmes comme conséquences d'évènements extérieurs et en permettant au langage de gérer automatiquement les dépendances de données. En bref, elle permet au développeur d'exprimer dans le programme quoi faire, et laisse au langage la gestion automatique du moment où cela doit être fait.
+La "programmation réactive" (Reactive Programming) est une solution de plus en plus populaire pour développer des applications interactives de type \textit{event-driven}. Elle fournit les abstractions essentielles à l'expression de programmes comme conséquences d'évènements extérieurs et en permettant au langage de gérer automatiquement les dépendances entre événements et traitements. En bref, elle permet au développeur d'exprimer dans le programme quoi faire, et laisse au langage la gestion automatique du moment où cela doit être fait.
+
+Cette étude vise à décrire et comparer les différentes implémentations existantes de la RP et à identifier les challenges restants dans ce domaine.
 
 \section{Axes d'approche}
-Six axes d'axes d'approche ont été définis.
+L'étude utilise six axes d'approche pour la description des langages réactifs :
 
-\subsection{Représentations des valeurs évolutives}
+\begin{description}
+    \item[Représentations des valeurs évolutives]
+    La plupart des langages fournissent deux abstractions de base : les \textbf{\textit{behaviors}} pour la représentation des valeurs évoluant dans le temps de manière continue et les \textbf{\textit{events}} pour la représentation des valeurs évoluant dans le temps de manière discrètes.
+    
+    \item[Modèle d'évaluation]
+    Le modèle d'évaluation définit comment les changements sont propagés dans le graphe de dépendance des valeurs et fonctions. Du point de vue du programmeurs, cette propagation est automatique. Cette propagation peut avoir lieu dans deux sens: 
+    
+    \textbf{\textit{Pull-Based}} (propagation demand-driven), où le calcul nécessitant la valeur évolutive doit la réclamer("pull") à la source (lazy evaluation).
+    
+    \textbf{\textit{Push-Based}} (propagation data-driven), où la source qui transmet le changement à toutes ses dépendances (eager evaluation).
+    
+    \item[Glitch Avoidance]
+    Un \textit{glitch} survient si, a un moment, on peut voir des valeurs dans un état inconsistant. Les \textit{glitches} sont des erreurs qui surviennent lors de la propagation des changement lors d'un évènement. Par exemples, d'anciennes valeurs sont combinées avec des nouvelles afin de former un état intermédiaire n'ayant aucune consistance avec l'état du programme.
+    
+    \item[Lifting Operations]
+    Le \textit{lifting} est la conversion d'opérateurs afin de les rendre capables de gérer des \textit{behaviors}.
+    
+    \item[Multidirectionnalité]
+    Cette propriété définit la manière dont sont propagés les changements, qui est soit unidirectionelle soit multidirectionelle. Quand elle est multidirectionnelle, une expression est réévaluée quand n'importe quelle event/behavior qu'elle contient change. Sinon, on a un sens input -> output (graphe dirigé).
+    
+    \item[Support de la distribution]
+    Un langage réactif supportant la distribution permet de créer des dépendances entre des traitements ou données distribués sur plusieurs noeuds. C'est un critère important car les applications interactives deviennement de plus en plus distribuées, mais c'est une chose difficile à implémenter.
+\end{description}
 
-L'abstraction des variables réactives est indispensable afin de faciliter l'écriture d'un programme réactif. La plupart des langages fournissent deux abstractions: les \textit{behaviors} (pour la représentation des valeurs évoluant dans le temps de manière continue) et les \textit{events} (pour la représentation des valeurs évoluant dans le temps de manière discrètes). On notera que pour les \textit{behaviors} la précision est directement liée à la fréquence d'horloge de la machine (plus elle est élevée, plus la précision est grande).
-
-\subsection{Modèle d'évaluation}
-Le modèle d'évaluation définit comment les changements sont propagés dans le graphe de dépendance des valeurs et fonctions. Du point de vue du programmeurs, cette propagation est automatique. Cette propagation peut avoir lieu dans deux sens: \textit{Pull-Based} ou \textit{Push-Based}.
-
-Dans la variante \textit{Pull-Based}, le calcul nécessitant la valeur évolutive doit la réclamer("pull") à la source. La propagation est donc \textit{demand drivent} et l'évaluation des la valeur est paresseuse \textit{lazy evaluation}. Un problème peut survenir si trop de changements s'accumulent sans être exécutés, dans ce cas, l'appel à la nouvelle valeur peut provoquer une latence significative.
-
-Dans la variante \textit{Push-Based}, c'est la source qui, a chaque changement de valeur, transmet le changement à toutes ses dépendances. La propagation est donc \textit{data drivent} et l'évaluation des la valeur est stricte \textit{eager evaluation}. Ici le problème principal est les calculs faits pour rien, car toutes les dépendances sont recalculées à chaque changement, mais pas forcément lues.
-
-\subsection{Glitch Avoidance}
-Un \textit{glitch} survient si, a un moment, on peut voir des valeurs dans un état inconsistant. Les \textit{glitches} sont des erreurs qui surviennent lors de la propagation des changement lors d'un évènement. Par exemples, d'anciennes valeurs sont combinées avec des nouvelles afin de former un état intermédiaire n'ayant aucune consistance avec l'état du programme.
-
-\subsection{Lifting Operations}
-Le \textit{lifting} est la conversion d'opérateurs afin de les rendre capables de gérer des \textit{behaviors}.
-
-\subsection{multidirectionality}
-
-
-
-\subsection{support for distribution}
 
 \section{Langages}
-Trois familles: FRP siblings, cousins of reactive programming, others (trop long)
+
+L'étude distingue trois familles de langages réactifs: Les langages \textit{\textbf{FRP}} (Functional Reactive Programming, par ex. Fran) qui implémentent tous les concepts classiques et sont basés sur des langages fonctionnels, les \textit{\textbf{Cousins de la Programmation Réactive}} (par ex. .NET Rx), qui incluent certaines fonctionnalités des langages réactifs (propagation auto. des changements + autres), et les langages de type \textit{\textbf{Synchrone/Dataflow/Synchrone Dataflow}}, utilisés pour modeler des systèmes temps réel (par ex. LabView).
 
 \section{Questions ouvertes et solutions}
 
@@ -58,7 +62,6 @@ supportent la multi-directionnalité et la programmation distribuée.
 \subsection{Multi-directionnalité}
 
 \subsection{Programmation réactive distribuée}
-
 
 Multidirectionality, distributed reactive programming 
 
