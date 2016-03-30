@@ -2,22 +2,40 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
-\usepackage[top=1in,bottom=0.8in, left=1in, right=1in]{geometry}
+\usepackage[top=0.8in,bottom=0.8in, left=0.8in, right=1in]{geometry}
 \usepackage{multicol}
+\setlength{\parindent}{0em}
 
 \begin{document}
 {\centering
 \section*{A Survey on Reactive Programming}}
 \begin{multicols}{2}
-\subsection*{Définition}
 
-\subsection*{Problématique}
+\subsection*{Contexte et définition}
+De nous jours, les applications deviennent de plus en plus interactives et dirigées par des évènement (event-driven applications). Le problème est que le comportement de ces applications est difficile à contrôler et à prédire car les évènements externes ne sont pas sous contrôle.
+
+La "programmation réactive" (reactive programming) est une solution pour les problèmes posés par la programmation évènementielle. Elle fournit les abstractions essentielles à l'expression de programmes comme conséquences d'evènements extérieurs et en permettant au language de gérer automatiquement les dépendances de données. En bref, elle permet au developpeur d'exprimer dans le programme quoi faire, et laisse au language la gestion automatique du moment où cela doit être fait.
 
 \subsection*{Axes d'approche}
+Six axes d'axes d'approche ont été définis.
+
+\paragraph{representation of time-varying values}
+
+\paragraph{evaluation model}
+
+\paragraph{lifting operations}
+
+\paragraph{multidirectionality}
+
+\paragraph{glitch avoidance}
+
+\paragraph{support for distribution}
 
 \subsection*{Langages}
+Trois familles: FRP siblings, cousins of reactive programming, others (trop long)
 
 \subsection*{Questions ouvertes}
+Multidirectionality, distributed reactive programming 
 
 \subsection*{Conclusion}
 
