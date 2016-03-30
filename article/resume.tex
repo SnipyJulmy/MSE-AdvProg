@@ -41,7 +41,7 @@ L'étude utilise six axes d'approche pour la description des langages réactifs 
     Un \textit{glitch} survient si, a un moment, on peut voir des valeurs dans un état inconsistant. Les \textit{glitches} sont des erreurs qui surviennent lors de la propagation des changement lors d'un évènement. Par exemples, d'anciennes valeurs sont combinées avec des nouvelles afin de former un état intermédiaire n'ayant aucune consistance avec l'état du programme.
     
     \item[Lifting Operations]
-    Le \textit{lifting} est la conversion d'opérateurs afin de les rendre capables de gérer des \textit{behaviors}.
+    Le \textit{lifting} est la conversion d'opérateurs afin de les rendre capables de gérer des \textit{behaviors}. Il y a trois stratégies de lifting: le lifting implicite, explicite et manuel. Dans le lifting implicite, le lifting est automatiquement effectué par le langage si les variables en paramètres sont des \textit{behaviors}. Dans le lifting explicite, il faut, lors de l'appel, utiliser une fonction fournie le langage avant de permettre l'opération sur un \textit{behavior}. Dans le lifting manuel, la valeur courante de la variable doit être récupérée manuellement dans le code.
     
     \item[Multidirectionnalité]
     Cette propriété définit la manière dont sont propagés les changements, qui est soit unidirectionelle soit multidirectionelle. Quand elle est multidirectionnelle, une expression est réévaluée quand n'importe quelle event/behavior qu'elle contient change. Sinon, on a un sens input -> output (graphe dirigé).
