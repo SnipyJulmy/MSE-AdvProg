@@ -26,15 +26,19 @@ L'abstraction des variables réactives est indispensable afin de faciliter l'éc
 \paragraph{Modèle d'évaluation}~~\\
 Le modèle d'évaluation définit comment les changements sont propagés dans le graphe de dépendance des valeurs et fonctions. Du point de vue du programmeurs, cette propagation est automatique. Cette propagation peut avoir lieu dans deux sens: \textit{Pull-Based} ou \textit{Push-Based}.
 
-Dans la variante \textit{Pull-Based}, le calcul nécessitant la valeur évolutive doit la réclamer("pull") à la source. La propagation est donc \textit{demand drivent} et l'évaluation des la valeur est paresseuse \textit{lazy evaluation}. Un problème peur survenir si trop de changements s'accumulent sans être exécutés, dans ce cas, l'appel à la nouvelle valeur peur provoquer une latence significative.
+Dans la variante \textit{Pull-Based}, le calcul nécessitant la valeur évolutive doit la réclamer("pull") à la source. La propagation est donc \textit{demand drivent} et l'évaluation des la valeur est paresseuse \textit{lazy evaluation}. Un problème peut survenir si trop de changements s'accumulent sans être exécutés, dans ce cas, l'appel à la nouvelle valeur peut provoquer une latence significative.
 
-Dans la variante \textit{Push-Based}, c'est la source qui, a chaque changement de valeur, transmet le changement à toutes ses dépendances. La propagation est donc \textit{data drivent} et l'évaluation des la valeur est stricte \textit{eager evaluation}.
+Dans la variante \textit{Push-Based}, c'est la source qui, a chaque changement de valeur, transmet le changement à toutes ses dépendances. La propagation est donc \textit{data drivent} et l'évaluation des la valeur est stricte \textit{eager evaluation}. Ici le problème principal est les calculs faits pour rien, car toutes les dépendances sont recalculées à chaque changement, mais pas forcément lues.
 
-\paragraph{lifting operations}
+\paragraph{Glitch Avoidance}
+Un \textit{glitch} survient si, a un moment, on peut voir des valeurs dans un état inconsistant. Les \textit{glitches} sont des erreurs qui surviennent lors de la propagation des changement lors d'un évènement. Par exemples, d'anciennes valeurs sont combinées avec des nouvelles afin de former un état intermédiaire n'ayant aucune consistance avec l'état du programme.
+
+\paragraph{Lifting Operations}
+Le \textit{lifting} est la conversion d'opérateurs afin de les rendre capables de gérer des \textit{behaviors}.
 
 \paragraph{multidirectionality}
 
-\paragraph{glitch avoidance}
+
 
 \paragraph{support for distribution}
 
