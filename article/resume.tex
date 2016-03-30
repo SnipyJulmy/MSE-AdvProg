@@ -14,14 +14,21 @@
 \subsection*{Contexte et définition}
 De nous jours, les applications deviennent de plus en plus interactives et dirigées par des évènement (event-driven applications). Le problème est que le comportement de ces applications est difficile à contrôler et à prédire car les évènements externes ne sont pas sous contrôle.
 
-La "programmation réactive" (reactive programming) est une solution pour les problèmes posés par la programmation évènementielle. Elle fournit les abstractions essentielles à l'expression de programmes comme conséquences d'evènements extérieurs et en permettant au language de gérer automatiquement les dépendances de données. En bref, elle permet au developpeur d'exprimer dans le programme quoi faire, et laisse au language la gestion automatique du moment où cela doit être fait.
+La "programmation réactive" (reactive programming) est une solution pour les problèmes posés par la programmation évènementielle. Elle fournit les abstractions essentielles à l'expression de programmes comme conséquences d'évènements extérieurs et en permettant au langage de gérer automatiquement les dépendances de données. En bref, elle permet au développeur d'exprimer dans le programme quoi faire, et laisse au langage la gestion automatique du moment où cela doit être fait.
 
 \subsection*{Axes d'approche}
 Six axes d'axes d'approche ont été définis.
 
-\paragraph{representation of time-varying values}
+\paragraph{Représentations des valeurs évolutives}
+~~\\
+L'abstraction des variables réactives est indispensable afin de faciliter l'écriture d'un programme réactif. La plupart des langages fournissent deux abstractions: les \textit{behaviors} (pour la représentation des valeurs évoluant dans le temps de manière continue) et les \textit{events} (pour la représentation des valeurs évoluant dans le temps de manière discrètes). On notera que pour les \textit{behaviors} la précision est directement liée à la fréquence d'horloge de la machine (plus elle est élevée, plus la précision est grande).
 
-\paragraph{evaluation model}
+\paragraph{Modèle d'évaluation}~~\\
+Le modèle d'évaluation définit comment les changements sont propagés dans le graphe de dépendance des valeurs et fonctions. Du point de vue du programmeurs, cette propagation est automatique. Cette propagation peut avoir lieu dans deux sens: \textit{Pull-Based} ou \textit{Push-Based}.
+
+Dans la variante \textit{Pull-Based}, le calcul nécessitant la valeur évolutive doit la réclamer("pull") à la source. La propagation est donc \textit{demand drivent} et l'évaluation des la valeur est paresseuse \textit{lazy evaluation}. Un problème peur survenir si trop de changements s'accumulent sans être exécutés, dans ce cas, l'appel à la nouvelle valeur peur provoquer une latence significative.
+
+Dans la variante \textit{Push-Based}, c'est la source qui, a chaque changement de valeur, transmet le changement à toutes ses dépendances. La propagation est donc \textit{data drivent} et l'évaluation des la valeur est stricte \textit{eager evaluation}.
 
 \paragraph{lifting operations}
 
