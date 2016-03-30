@@ -18,16 +18,17 @@
 
 \section{Contexte et définition}
 
-La "programmation réactive" (Reactive Programming) est une solution de plus en plus populaire pour développer des applications interactives de type \textit{event-driven}. Elle fournit les abstractions essentielles à l'expression de programmes comme conséquences d'évènements extérieurs et en permettant au langage de gérer automatiquement les dépendances entre événements et traitements. En bref, elle permet au développeur d'exprimer dans le programme quoi faire, et laisse au langage la gestion automatique du moment où cela doit être fait.
+La "programmation réactive" (Reactive Programming) est une solution de plus en plus populaire pour développer des applications hautement interactives et de type \textit{event-driven}, qui sont difficiles à exprimer dans des langages séquentiels car il est impossible de prédire l'ordre des événements. Elle fournit les abstractions essentielles à l'expression de programmes comme conséquences d'évènements extérieurs permet au langage de gérer automatiquement les dépendances entre événements et traitements. En bref, elle permet au développeur d'exprimer dans le programme quoi faire, et laisse au langage la gestion automatique du moment où cela doit être fait. Elle présente une alternative attractive aux systèmes de callbacks, qui deviennent souvent complexes à gérer (\textit{Callback Hell}).
 
 Cette étude vise à décrire et comparer les différentes implémentations existantes de la RP et à identifier les challenges restants dans ce domaine.
+
 
 \section{Axes d'approche}
 L'étude utilise six axes d'approche pour la description des langages réactifs :
 
 \begin{description}
-    \item[Représentations des valeurs évolutives]
-    La plupart des langages fournissent deux abstractions de base : les \textbf{\textit{behaviors}} pour la représentation des valeurs évoluant dans le temps de manière continue et les \textbf{\textit{events}} pour la représentation des valeurs évoluant dans le temps de manière discrètes.
+    \item[Abstractions de base]
+    La plupart des langages fournissent 2 abstractions basiques : les \textbf{\textit{behaviors}} pour la représentation des valeurs évoluant dans le temps de manière continue et les \textbf{\textit{events}} pour la représentation de flux (potentiellement infinis) d'événements discrets. Ces éléments sont généralement composables via des \textbf{\textit{combinators}} pour en produire de nouveaux. Les différences entre langages se situent principalement sur la manière de représenter les behaviors, avec soit la lazy evaluation soit du sampling.
     
     \item[Modèle d'évaluation]
     Le modèle d'évaluation définit comment les changements sont propagés dans le graphe de dépendance des valeurs et fonctions. Du point de vue du programmeurs, cette propagation est automatique. Cette propagation peut avoir lieu dans deux sens: 
@@ -52,14 +53,14 @@ L'étude utilise six axes d'approche pour la description des langages réactifs 
 
 \section{Langages}
 
-L'étude distingue trois familles de langages réactifs: Les langages \textit{\textbf{FRP}} (Functional Reactive Programming, par ex. Fran) qui implémentent tous les concepts classiques et sont basés sur des langages fonctionnels, les \textit{\textbf{Cousins de la Programmation Réactive}} (par ex. .NET Rx), qui incluent certaines fonctionnalités des langages réactifs (propagation auto. des changements + autres), et les langages de type \textit{\textbf{Synchrone/Dataflow/Synchrone Dataflow}}, utilisés pour modeler des systèmes temps réel (par ex. LabView).
+L'étude décrit 15 langages réactifs et les groupe en trois familles : Les langages \textit{\textbf{FRP}} (Functional Reactive Programming, par ex. Fran et Scala.React) qui implémentent tous les concepts classiques et sont basés sur des langages fonctionnels, les \textit{\textbf{Cousins de la Programmation Réactive}} (par ex. .NET Rx), qui incluent certaines fonctionnalités des langages réactifs (propagation auto. des changements + autres), et les langages de type \textit{\textbf{Synchrone/Dataflow/Synchrone Dataflow}}, utilisés pour modeler des systèmes temps réel (par ex. LabView). 
 
 \section{Questions ouvertes et solutions}
 
 La programmation réactive possède encore des zones d'ombres, très peu de langages réactifs
-supportent la multi-directionnalité et la programmation distribuée. L'étude propose des pistes pour leur mitigation :
+supportent la multidirectionalité et la programmation distribuée. L'étude propose des pistes pour leur mitigation :
 \begin{itemize}
-    \item \textbf{Multi-directonnalité}
+    \item \textbf{Multidirectionalité}
         \begin{itemize}
             \item Utiliser un système basé sur la programmation par contrainte mais pour des flux
             \item Expliciter la dépendance bi-directionnelle (certains langages)
