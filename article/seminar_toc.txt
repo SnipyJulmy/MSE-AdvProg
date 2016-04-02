@@ -1,0 +1,38 @@
+Introduction
+Reactive programming
+    Distinguishing Features of Reactive Programming Languages
+Taxonomy
+    Basic abstraction
+    Evaluation model
+        Pull based
+        Push based
+        Push vs. Pull
+    Glitch Avoidance
+    Lifting Operations
+        Relation between Typing and Lifting
+        Classification of Lifting Strategies
+            Implicit lifting
+            Explicit lifting
+            Manual lifting
+    Multidirectionality
+    Support for distribution
+    Discussion
+        Basic abstractions
+        Evaluation Model
+        Lifting
+        Multidirectionality
+        Glitch Avoidance
+        Support for distribution
+    FRP
+    Cousins of reactive programming
+    Synchronous, Dataflow, and Synchronous Dataflow Languages
+Open issues and possible solutions
+Distributed reactive programming
+
+
+
+
+
+
+
+
