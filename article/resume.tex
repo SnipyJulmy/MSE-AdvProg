@@ -23,25 +23,26 @@
 
 \section{Contexte}
 
-La "programmation réactive" (Reactive Programming) est un paradigme de plus en plus populaire pour développer des applications hautement interactives et de type \textit{event-driven}, qui sont difficiles à exprimer dans des langages séquentiels. Les systèmes de "callbacks" traditionnels deviennent souvent complexes à gérer (\textit{Callback Hell}). Elle fournit les abstractions pour définir des programmes comme des réactions à des évènements extérieurs et permet au langage de gérer automatiquement le flux du temps et les dépendances entre ces événements et les traitements et données. En bref, elle permet d'abstraire la gestion du temps: le développeur exprime quoi faire, et laisse au langage la gestion automatique du moment où cela doit être fait. 
+La "programmation réactive" (Reactive Programming) est un paradigme de plus en plus populaire pour développer des applications hautement interactives et de type \textit{event-driven}. Ces applications sont difficiles à exprimer dans des langages séquentiels, avec des systèmes de "callbacks" qui deviennent souvent complexes à gérer (\textit{Callback Hell}). La programmation réactive  permet d'abstraire la gestion du temps : on définit un programme comme un ensemble de valeurs variant dans le temps, de sources d'événements et de relations entre elles. Le système propage les changements de valeurs automatiquement. En bref, le développeur exprime quoi faire, et laisse au langage la gestion automatique du moment où cela doit être fait.
 
-Le but de l'étude est de décrire et comparer 15 différentes implémentations (langages et librairies) existantes pour la programmation réactive et à identifier les challenges restants dans ce domaine.
+\vspace{1ex}
+Le but de l'étude est de décrire et comparer 15 différentes implémentations (langages et librairies) existantes pour la programmation réactive à travers des exemples et à identifier les challenges restants dans ce domaine.
 
 \section{Axes d'approche}
 L'étude utilise six axes pour la description des langages réactifs :
 
 \begin{description}
     \item[Abstractions de base :]
-    En général 2 abstractions basiques : les \textbf{\textit{behaviors}} pour la représentation des valeurs évoluant dans le temps de manière continue et les \textbf{\textit{events}} pour la représentation de flux (potentiellement infinis) d'événements discrets. Ces éléments sont généralement composables via des \textbf{\textit{combinators}} pour en produire de nouveaux. Les différences entre langages se situent principalement sur la manière de représenter les \textit{behaviors}, avec soit la lazy evaluation soit du sampling.
+    2 abstractions basiques : les \textbf{\textit{behaviors}} pour la représentation des valeurs évoluant dans le temps de manière continue et les \textbf{\textit{events}} pour la représentation de flux (potentiellement infinis) d'événements discrets. Ces éléments sont généralement composables via des \textbf{\textit{combinators}} pour en produire de nouveaux. Certains langages supportent toutes ces abstractions, et certains un subset.
     
     \item[Modèle d'évaluation :]
-    Comment les changements sont propagés dans le graphe de dépendance des valeurs et traitements. La propagation est automatique du point de vue du programmeur. Dans le modèle \textbf{\textit{Pull-Based}} (propagation demand-driven), le calcul nécessitant la valeur évolutive doit la réclamer ("pull") à la source (lazy evaluation). On a pas de calcul inutile, mais on a des délais et on risque de perdre des valeurs. Dans le modèle \textbf{\textit{Push-Based}} (propagation data-driven), la source transmet le changement à toutes ses dépendances (eager evaluation). On a a les changements directement, mais les traitements sont effectués même si leur résultat n'est pas utilisé.
-    
-    \item[Evitement des \textit{glitches} :]
-    Un \textit{glitch} survient si, a un moment, on peut voir des valeurs dans un état incohérent. Les \textit{glitches} surviennent lors de la propagation des changement lors d'un évènement. Par exemples, d'anciennes valeurs sont combinées avec des nouvelles afin de former un état intermédiaire n'ayant aucune cohérence avec l'état du programme. La plupart des langages étudiés supportent l'évitement des glitches en mode local (1 machine).
+    Le mode de propagation dans le graphe de dépendance des valeurs et traitements. Dans le modèle \textbf{\textit{Pull-Based}} (propagation demand-driven), le calcul nécessitant la valeur évolutive doit la réclamer ("pull") à la source (lazy evaluation). On a pas de calcul inutile, mais on a des délais et on risque de perdre des valeurs. Dans le modèle \textbf{\textit{Push-Based}} (propagation data-driven), la source transmet le changement à toutes ses dépendances (eager evaluation). Les changements sont directs, mais les traitements sont effectués même si leur résultat n'est pas utilisé. La plupart des implémentations récentes sont \textbf{\textit{Push-Based}}, et certaines combinent les 2 modèles.
     
     \item[Opérations de lifting:]
     Le \textit{lifting} est la conversion de fonctions afin de les rendre capables de gérer des \textit{behaviors}. Il y a trois stratégie de lifting : implicite, explicite et manuelle. Dans le \textbf{lifting implicite}, le lifting est dynamiquement effectué par le langage si les variables en paramètres sont des \textit{behaviors}. Dans le \textbf{lifting explicite}, il faut utiliser une fonction fournie dans le langage pour transformer l'opération pour l'appliquer sur des \textit{behaviors}. Dans le \textbf{lifting manuel}, le code doit être écrit pour prendre des behaviors en paramètre, et la valeur courante de la \textit{behavior} doit être récupérée manuellement. Le mode de \textit{lifting} utilisé dépend surtout du typage du langage hôte (statique/dynamique).
+    
+    \item[Evitement des \textit{glitches} :]
+    Un \textit{glitch} survient si, a un moment, on peut voir des valeurs dans un état incohérent. Les \textit{glitches} surviennent lors de la propagation des changement lors d'un évènement. Par exemples, d'anciennes valeurs sont combinées avec des nouvelles afin de former un état intermédiaire n'ayant aucune cohérence avec l'état du programme. La plupart des langages étudiés supportent l'évitement des glitches en mode local (1 machine).
     
     \item[Multidirectionnalité :]
     Cette propriété définit la manière dont sont propagés les changements, qui est soit unidirectionelle soit multidirectionelle. Quand elle est multidirectionnelle, une expression est réévaluée quand n'importe quelle event/behavior qu'elle contient change. Sinon, on a un sens input -> output (graphe acyclique). Seuls 2 langages supportent la multidirectionnalité.
@@ -53,7 +54,7 @@ L'étude utilise six axes pour la description des langages réactifs :
 
 \section{Familles de langages}
 
-L'étude décrit 15 langages réactifs et les groupe en trois familles : Les langages de la "fratrie" \textit{\textbf{FRP}} (Functional Reactive Programming, par ex. Fran et Scala.React) qui implémentent les \textit{behaviors} et le \textit{lifting}, les \textit{\textbf{Cousins de la Programmation Réactive}} (par ex. .NET Rx), qui incluent la propagation des changements via un système de producteurs/consommateurs d'événements mais pas les abstractions classiques, et les langages de type \textit{\textbf{Synchrone/Dataflow/Dataflow Synchrone}}, utilisés pour modeler des systèmes temps réel (par ex. LabView). Ces derniers ne sont pas détaillés dans l'étude.
+L'étude groupe les 15 langages en trois familles : Les langages de la "fratrie" \textit{\textbf{FRP}} (Functional Reactive Programming, par ex. Fran et Scala.React) qui implémentent les \textit{behaviors} et le \textit{lifting}, les \textit{\textbf{Cousins de la Programmation Réactive}} (par ex. .NET Rx), qui incluent la propagation automatique via un système de producteurs/consommateurs d'événements mais où les dépendances doivent être explicitées, et les langages de type \textit{\textbf{Synchrone/Dataflow/Dataflow Synchrone}}, utilisés pour modeler des systèmes temps réel (par ex. LabView). Ces derniers ne sont pas détaillés dans l'étude.
 
 \section{Questions ouvertes et pistes de solutions}
  
@@ -66,12 +67,12 @@ L'étude détermine que la programmation réactive possède encore des zones d'o
         \end{itemize}
     \item \textbf{Glitches dans les systèmes distribués}
         \begin{itemize}
-            \item Mise en place d'une horloge commune
+            \item Mise en place d'une horloge commune (mauvais)
             \item Utiliser des "ticks" (intervalles de temps où les événements sont considérés simultanés)
         \end{itemize}
     \item \textbf{Erreurs réseaux}
         \begin{itemize}
-            \item Utilisation du pattern "publish/subscribe-style" (pas besoin d'être connecté au même moment)
+            \item Utilisation du pattern "publish/subscribe" (pas besoin d'être connecté au même moment)
         \end{itemize}
 \end{itemize}
 
