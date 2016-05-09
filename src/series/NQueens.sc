@@ -50,7 +50,7 @@ def printChessBoard(list: List[List[(Int, Int)]]): String =
             }
         }
 
-        constructString(list, board,list.length)
+        constructString(list, board, list.length)
     }
     list.map(extractSolution(_)).foldLeft("")((x, y) => x + "\n" + y)
 }
